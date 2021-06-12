@@ -14,9 +14,6 @@ public class MonkeyClick : MonoBehaviour
 
     [Inject]
     PlayerManager _playerManager = null;
-
-    [Inject]
-    EventManager _eventManager = null;
     
     MainControls _controls = null;
 
