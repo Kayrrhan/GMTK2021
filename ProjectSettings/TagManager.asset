@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Monkey
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - TempLayer
   - Water
   - UI
   - 
