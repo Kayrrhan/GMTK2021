@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -9,12 +10,27 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region private members
+
+    [Inject]
+    EventManager _eventManager;
+
+    Monkey _selectedMonkey = null;
+
     #endregion
 
     #region public properties
 
     [SerializeField]
-    public Monkey selectedMonkey { get; set; }
+    public Monkey selectedMonkey
+    {
+        get => _selectedMonkey;
+        set
+        {
+            Monkey oldMonkey = _selectedMonkey;
+            _selectedMonkey = value;
+            _eventManager.FireMonkeySelected(oldMonkey, _selectedMonkey);
+        }
+    }
 
     #endregion
 

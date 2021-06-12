@@ -30,7 +30,7 @@ public class MainUI : MonoBehaviour
     void Awake()
     {
         _eventManager.onMonkeyGripped.AddListener(OnMonkeyGripped);
-        _eventManager.onMonkeySelection.AddListener(OnMonkeySelection);
+        _eventManager.onMonkeySelected.AddListener(OnMonkeySelection);
     }
 
     #endregion
@@ -43,9 +43,9 @@ public class MainUI : MonoBehaviour
     }
 
 
-    void OnMonkeySelection(Monkey monkey)
+    void OnMonkeySelection(Monkey oldMonkey, Monkey newMonkey)
     {
-        _gripButtonText.text = monkey.gripJoint != null ? "Drop" : "Grip";
+        _gripButtonText.text = newMonkey.gripJoint != null ? "Drop" : "Grip";
     }
 
     #endregion
