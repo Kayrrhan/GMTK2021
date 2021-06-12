@@ -53,6 +53,7 @@ public class MonkeyMovement : MonoBehaviour
 
         _eventManager.onMonkeyGrip.AddListener(Grip);
         _playerManager.selectedMonkey = _monkey; // À retirer dès que possible.
+
     }
 
     void OnDestroy()
