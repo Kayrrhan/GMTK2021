@@ -95,17 +95,22 @@ public class MonkeyMovement : MonoBehaviour
         }
 
         Vector3 mvt = _movement.x * Vector3.right * _speed * Time.fixedDeltaTime;
-        if (mvt.x != 0f)
+        bool isMoving = mvt.x != 0f;
+        if (isMoving)
         {
             monkey.SetSide((int)_movement.x);
-            if (isGrounded)
+        }
+
+        if (isGrounded)
+        {
+            if (isMoving)
             {
                 monkey.SetAnimationState(Monkey.AnimationState.Walk);
             }
-        }
-        else if (isGrounded)
-        {
-            monkey.SetAnimationState(Monkey.AnimationState.Idle);
+            else
+            {
+                monkey.SetAnimationState(Monkey.AnimationState.Idle);
+            }
         }
         else
         {
@@ -133,6 +138,10 @@ public class MonkeyMovement : MonoBehaviour
         if (newMonkey != null)
         {
             EnableConstraints(newMonkey, newMonkey.gripJoint == null);
+        }
+        if (oldMonkey != null && oldMonkey.animationState != Monkey.AnimationState.Grip)
+        {
+            oldMonkey.SetAnimationState(Monkey.AnimationState.Idle);
         }
     }
 

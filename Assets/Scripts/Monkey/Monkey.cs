@@ -107,6 +107,11 @@ public class Monkey : MonoBehaviour
 
     public void SetAnimationState(AnimationState state)
     {
+        if (_animationState == state)
+        {
+            return;
+        }
+
         _animationState = state;
         _animator.Play(_animationState.ToString());
     }

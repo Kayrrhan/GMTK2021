@@ -8,6 +8,8 @@ public class AutoSpawn : MonoBehaviour
 {
     public Transform spawn;
     public GameObject monkeyPrefab;
+    
+    [System.NonSerialized]
     public GameObject lastInstance;
 
     
