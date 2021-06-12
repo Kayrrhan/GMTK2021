@@ -51,6 +51,7 @@ public class MonkeyClick : MonoBehaviour
     {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
+            
             if (Physics.Raycast(ray, out hit, 100.0f)){
                     if (hit.transform.gameObject.tag == "Monkey") {
                         _playerManager.selectedMonkey = hit.transform.gameObject.GetComponent<Monkey>();
