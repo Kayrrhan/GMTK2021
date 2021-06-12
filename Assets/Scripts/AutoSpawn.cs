@@ -6,16 +6,15 @@ public class AutoSpawn : MonoBehaviour
 {
     public Transform spawn;
     public GameObject monkeyPrefab;
-    [SerializeField]
     GameObject lastInstance;
 
     void Start()
     {
-        lastInstance = monkeyPrefab;
+        lastInstance = Instantiate(monkeyPrefab,spawn.position,Quaternion.identity);
     }
     void OnTriggerExit(Collider other){
         if (other.gameObject == lastInstance)
-            lastInstance = Instantiate(monkeyPrefab,new Vector3(0,0,0),Quaternion.identity);
+            lastInstance = Instantiate(monkeyPrefab,spawn.position,Quaternion.identity);
     }
     
     
