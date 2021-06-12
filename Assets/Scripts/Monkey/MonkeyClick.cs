@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 using CallbackCtx = UnityEngine.InputSystem.InputAction.CallbackContext;
 
 public class MonkeyClick : MonoBehaviour
 {
     #region inspector
 
-    [SerializeField]
-    GameObject _playerManager = null;
-
     #endregion
 
     #region private members
+
+    [Inject]
+    PlayerManager _playerManager = null;
 
     MainControls _controls = null;
     
@@ -50,10 +51,7 @@ public class MonkeyClick : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
             if (Physics.Raycast(ray, out hit, 100.0f)){
                     if (hit.transform.gameObject.tag == "Monkey") {
-                        // MonkeyMovement MonkeyMovement = _playerManager.GetComponent<MonkeyMovement>();
-                        // MonkeyMovement.changeMonkey(hit.transform.gameObject);
-
-                        // Debug.Log(hit.transform.gameObject.name);
+                        _playerManager.selectedMonkey = hit.transform.gameObject.GetComponent<Monkey>();
                     }
                 }
             }

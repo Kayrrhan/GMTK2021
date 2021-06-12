@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     #region inspector
+
     #endregion
 
     #region private members
@@ -12,6 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     #region public properties
 
+    [SerializeField]
     public Monkey selectedMonkey { get; set; }
 
     #endregion
