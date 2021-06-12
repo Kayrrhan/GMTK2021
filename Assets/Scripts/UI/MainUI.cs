@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 using Zenject;
+using UnityEngine.SceneManagement;
 
 public class MainUI : MonoBehaviour
 {
@@ -8,6 +11,10 @@ public class MainUI : MonoBehaviour
 
     [SerializeField]
     Text _gripButtonText = null;
+
+    
+    [SerializeField]
+    Text _resetButtonText = null;
 
     #endregion
 
@@ -48,6 +55,12 @@ public class MainUI : MonoBehaviour
     public void OnGripButtonClicked()
     {
         _eventManager.FireMonkeyGrip();
+    }
+
+
+    public void OnResetButtonClicked()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     #endregion
