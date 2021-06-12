@@ -25,6 +25,8 @@ public class Monkey : MonoBehaviour
 
     public BoxCollider gripCollider => _gripCollider;
 
+    public HingeJoint gripJoint { get; set; } = null;
+
     #endregion
 
     #region Unity messages
