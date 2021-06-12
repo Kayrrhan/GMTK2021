@@ -10,7 +10,8 @@ public class EventManager : MonoBehaviour
     public UnityEvent onMonkeyGrip = null;
 
     public UnityEvent<Monkey, bool> onMonkeyGripped = null;
-    public UnityEvent<Monkey> onMonkeySelection = null;
+
+    public UnityEvent<Monkey, Monkey> onMonkeySelected = null;
 
     #endregion
 
@@ -26,9 +27,9 @@ public class EventManager : MonoBehaviour
         onMonkeyGripped?.Invoke(monkey, gripped);
     }
 
-    public void FireMonkeySelection(Monkey monkey)
+    public void FireMonkeySelected(Monkey oldMonkey, Monkey newMonkey)
     {
-        onMonkeySelection?.Invoke(monkey);
+        onMonkeySelected?.Invoke(oldMonkey, newMonkey);
     }
     
     #endregion

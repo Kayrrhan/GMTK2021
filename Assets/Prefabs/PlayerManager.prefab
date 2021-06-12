@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 4552243528520182780}
   - component: {fileID: 7442878663304142220}
   - component: {fileID: 6076911021935632928}
+  - component: {fileID: 5593200861326151901}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -110,7 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f733a49f3420f9f43b976f234aaf2db5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monkey: {fileID: 0}
   _speed: 8
   _jumpForce: 10
   _swingForce: 1
@@ -127,6 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onMonkeyGrip:
+    m_PersistentCalls:
+      m_Calls: []
+  onMonkeyGripped:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &7442878663304142220
@@ -151,5 +154,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0738e2a6ea320f4cbcf664651f13160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5593200861326151901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2182832199390649034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65e883920860b64c817581fe2da341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

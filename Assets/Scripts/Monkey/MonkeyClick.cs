@@ -24,13 +24,8 @@ public class MonkeyClick : MonoBehaviour
     
     #endregion
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
-    }
-    void Awake(){
-    
         _controls = new MainControls();
         _controls.Main.Select.started += OnMouseClickLeft;
         _controls.Main.Unselect.started += OnMouseClickRight;
@@ -52,30 +47,30 @@ public class MonkeyClick : MonoBehaviour
     {
         _controls.Disable();
     }
+
     // Update is called once per frame
     void OnMouseClickLeft(CallbackCtx ctx)
     {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
-            
-            if (Physics.Raycast(ray, out hit, 100.0f)){
-                    if (hit.transform.gameObject.tag == "Monkey") {
-                        _playerManager.selectedMonkey = hit.transform.gameObject.GetComponent<Monkey>();
-                        _eventManager.FireMonkeySelection(_playerManager.selectedMonkey);
-                    }
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
+
+        if (Physics.Raycast(ray, out hit, 100.0f)){
+            if (hit.transform.gameObject.tag == "Monkey") {
+                _playerManager.selectedMonkey = hit.transform.gameObject.GetComponent<Monkey>();
             }
+        }
     }
     
     void OnMouseClickRight(CallbackCtx ctx)
     {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
-            if (Physics.Raycast(ray, out hit, 100.0f)){
-                    if (hit.transform.gameObject.tag == "Monkey") {
-                        if (_autospawn.lastInstance != hit.transform.gameObject) { 
-                            Destroy(hit.transform.gameObject);
-                        }
-                    }
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
+        if (Physics.Raycast(ray, out hit, 100.0f)){
+            if (hit.transform.gameObject.tag == "Monkey") {
+                if (_autospawn.lastInstance != hit.transform.gameObject) { 
+                    Destroy(hit.transform.gameObject);
+                }
             }
+        }
     }
 }

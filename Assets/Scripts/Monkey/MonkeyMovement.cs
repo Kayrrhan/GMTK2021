@@ -35,6 +35,10 @@ public class MonkeyMovement : MonoBehaviour
 
     bool _shouldJump = false;
 
+    const RigidbodyConstraints REGULAR_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+
+    const RigidbodyConstraints GRIP_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ;
+
     #endregion
 
     #region Unity messages
@@ -47,7 +51,7 @@ public class MonkeyMovement : MonoBehaviour
         _controls.Main.Jump.started += OnJump;
 
         _eventManager.onMonkeyGrip.AddListener(Grip);
-
+        _eventManager.onMonkeySelected.AddListener(OnMonkeySelected);
     }
 
     void OnDestroy()
@@ -57,6 +61,7 @@ public class MonkeyMovement : MonoBehaviour
         _controls.Main.Jump.started -= OnJump;
 
         _eventManager.onMonkeyGrip.RemoveListener(Grip);
+        _eventManager.onMonkeySelected.RemoveListener(OnMonkeySelected);
     }
 
     void OnEnable()
@@ -76,8 +81,10 @@ public class MonkeyMovement : MonoBehaviour
         {
             return;
         }
+
         Transform tr = monkey.transform;
         Rigidbody rb = monkey.rigidbody;
+        bool isGrounded = IsGrounded();
 
         if (monkey.gripJoint != null)
         {
@@ -88,13 +95,29 @@ public class MonkeyMovement : MonoBehaviour
         }
 
         Vector3 mvt = _movement.x * Vector3.right * _speed * Time.fixedDeltaTime;
+        if (mvt.x != 0f)
+        {
+            monkey.SetSide((int)_movement.x);
+            if (isGrounded)
+            {
+                monkey.SetAnimationState(Monkey.AnimationState.Walk);
+            }
+        }
+        else if (isGrounded)
+        {
+            monkey.SetAnimationState(Monkey.AnimationState.Idle);
+        }
+        else
+        {
+            monkey.SetAnimationState(Monkey.AnimationState.Jump);
+        }
 
         rb.MovePosition(tr.position + mvt);
 
         if (_shouldJump)
         {
             _shouldJump = false;
-            if (IsGrounded())
+            if (isGrounded)
             {
                 rb.AddForce(_jumpForce * rb.mass * Vector3.up, ForceMode.Impulse);
             }
@@ -104,6 +127,14 @@ public class MonkeyMovement : MonoBehaviour
     #endregion
 
     #region private methods
+
+    void OnMonkeySelected(Monkey oldMonkey, Monkey newMonkey)
+    {
+        if (newMonkey != null)
+        {
+            EnableConstraints(newMonkey, newMonkey.gripJoint == null);
+        }
+    }
 
     void OnMovement(CallbackCtx ctx)
     {
@@ -120,6 +151,12 @@ public class MonkeyMovement : MonoBehaviour
     void OnJump(CallbackCtx ctx)
     {
         _shouldJump = true;
+    }
+
+    void EnableConstraints(Monkey monkey, bool on)
+    {
+        monkey.transform.rotation = Quaternion.identity;
+        monkey.rigidbody.constraints = on ? REGULAR_CONSTRAINTS : GRIP_CONSTRAINTS;
     }
 
     bool IsGrounded()
@@ -186,17 +223,24 @@ public class MonkeyMovement : MonoBehaviour
         Destroy(monkey.gripJoint);
         monkey.gripJoint = null;
         _eventManager.FireMonkeyGripped(monkey, false);
+        EnableConstraints(monkey, true);
     }
 
     void AttachToTarget(Rigidbody target)
     {
         Monkey monkey = _playerManager.selectedMonkey;
+        EnableConstraints(monkey, false);
         monkey.gripJoint = target.gameObject.AddComponent<HingeJoint>();
         monkey.gripJoint.connectedBody = monkey.rigidbody;
         monkey.gripJoint.axis = Vector3.forward;
         Vector3 attachPoint = target.ClosestPointOnBounds(monkey.transform.position);
         monkey.gripJoint.anchor = target.transform.InverseTransformPoint(attachPoint);
         monkey.gripJoint.enableCollision = true;
+        monkey.gripJoint.autoConfigureConnectedAnchor = false;
+        monkey.gripJoint.connectedAnchor = monkey.transform.InverseTransformPoint(monkey.anchor.position);
+
+        monkey.SetAnimationState(Monkey.AnimationState.Grip);
+
         _eventManager.FireMonkeyGripped(monkey, true);
     }
 
