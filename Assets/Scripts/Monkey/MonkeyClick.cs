@@ -25,15 +25,13 @@ public class MonkeyClick : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 100.0f)){
-                if (hit.transform != null){
                     if (hit.transform.gameObject.tag == "Monkey") {
-                        MonkeyMovement MonkeyMovement = _playerManager.GetComponent<MonkeyMovement>();
-                        MonkeyMovement.changeMonkey(hit.transform.gameObject);
+                        // MonkeyMovement MonkeyMovement = _playerManager.GetComponent<MonkeyMovement>();
+                        // MonkeyMovement.changeMonkey(hit.transform.gameObject);
 
-                        Debug.Log(hit.transform.gameObject.name);
+                        // Debug.Log(hit.transform.gameObject.name);
                     }
                 }
             }
         }
     }
-}
