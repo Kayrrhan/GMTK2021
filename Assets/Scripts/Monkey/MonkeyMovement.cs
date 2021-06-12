@@ -35,8 +35,6 @@ public class MonkeyMovement : MonoBehaviour
 
     bool _shouldJump = false;
 
-    HingeJoint _gripJoint = null;
-
     #endregion
 
     #region Unity messages
@@ -81,9 +79,9 @@ public class MonkeyMovement : MonoBehaviour
         Transform tr = monkey.transform;
         Rigidbody rb = monkey.rigidbody;
 
-        if (_gripJoint != null)
+        if (monkey.gripJoint != null)
         {
-            Vector3 anchorPoint = _gripJoint.transform.TransformPoint(_gripJoint.anchor);
+            Vector3 anchorPoint = monkey.gripJoint.transform.TransformPoint(monkey.gripJoint.anchor);
             Vector3 dir = Vector3.Cross(anchorPoint - tr.position, Vector3.forward).normalized;
             rb.AddForce(dir * _movement.x * _swingForce, ForceMode.Impulse);
             return;
@@ -147,13 +145,14 @@ public class MonkeyMovement : MonoBehaviour
 
     void Grip()
     {
-        if (_gripJoint != null)
+        Monkey monkey = _playerManager.selectedMonkey;
+
+        if (monkey.gripJoint != null)
         {
             ReleaseTarget();
             return;
         }
         
-        Monkey monkey = _playerManager.selectedMonkey;
         int layer = LayerMask.NameToLayer("TempLayer");
         int mask = ~(1 << layer | 1 << LayerMask.NameToLayer("Ignore Raycast"));
         // Temporary apply layer to the current monkey.
@@ -184,20 +183,20 @@ public class MonkeyMovement : MonoBehaviour
     void ReleaseTarget()
     {
         Monkey monkey = _playerManager.selectedMonkey;
-        Destroy(_gripJoint);
-        _gripJoint = null;
+        Destroy(monkey.gripJoint);
+        monkey.gripJoint = null;
         _eventManager.FireMonkeyGripped(monkey, false);
     }
 
     void AttachToTarget(Rigidbody target)
     {
         Monkey monkey = _playerManager.selectedMonkey;
-        _gripJoint = target.gameObject.AddComponent<HingeJoint>();
-        _gripJoint.connectedBody = monkey.rigidbody;
-        _gripJoint.axis = Vector3.forward;
+        monkey.gripJoint = target.gameObject.AddComponent<HingeJoint>();
+        monkey.gripJoint.connectedBody = monkey.rigidbody;
+        monkey.gripJoint.axis = Vector3.forward;
         Vector3 attachPoint = target.ClosestPointOnBounds(monkey.transform.position);
-        _gripJoint.anchor = target.transform.InverseTransformPoint(attachPoint);
-        _gripJoint.enableCollision = true;
+        monkey.gripJoint.anchor = target.transform.InverseTransformPoint(attachPoint);
+        monkey.gripJoint.enableCollision = true;
         _eventManager.FireMonkeyGripped(monkey, true);
     }
 

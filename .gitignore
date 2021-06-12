@@ -48,6 +48,7 @@ Assets/StreamingAssets/crashlytics-build.properties
 
 # Probuilder
 ProjectSettings/ProBuilderSettings.json
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
 
 # User Settings
 [Uu]serSettings/
