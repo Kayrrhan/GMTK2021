@@ -15,7 +15,12 @@ public class MonkeyClick : MonoBehaviour
     [Inject]
     PlayerManager _playerManager = null;
 
+    [Inject]
+    EventManager _eventManager = null;
+    
     MainControls _controls = null;
+
+    AutoSpawn _autospawn;
     
     #endregion
 
@@ -39,6 +44,7 @@ public class MonkeyClick : MonoBehaviour
 
     void OnEnable()
     {
+        _autospawn = GameObject.Find("SpawnArea").GetComponent<AutoSpawn>();
         _controls.Enable();
     }
 
@@ -55,6 +61,7 @@ public class MonkeyClick : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100.0f)){
                     if (hit.transform.gameObject.tag == "Monkey") {
                         _playerManager.selectedMonkey = hit.transform.gameObject.GetComponent<Monkey>();
+                        _eventManager.FireMonkeySelection(_playerManager.selectedMonkey);
                     }
             }
     }
@@ -65,7 +72,9 @@ public class MonkeyClick : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
             if (Physics.Raycast(ray, out hit, 100.0f)){
                     if (hit.transform.gameObject.tag == "Monkey") {
-                        Destroy(hit.transform.gameObject);
+                        if (_autospawn.lastInstance != hit.transform.gameObject) { 
+                            Destroy(hit.transform.gameObject);
+                        }
                     }
             }
     }

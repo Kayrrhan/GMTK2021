@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 299267109}
   m_Layer: 0
-  m_Name: SpawnPoint (1)
+  m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -907,7 +907,7 @@ GameObject:
   - component: {fileID: 1242043630}
   - component: {fileID: 1242043629}
   m_Layer: 0
-  m_Name: SpawnArea (1)
+  m_Name: SpawnArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -927,6 +927,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn: {fileID: 299267109}
   monkeyPrefab: {fileID: 4916956807212003516, guid: 12cf8f210710dfe4fb1eaf56941cfc33, type: 3}
+  lastInstance: {fileID: 0}
 --- !u!54 &1242043630
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1701,6 +1702,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7421523078686077539, guid: 0a52c366e409df74094869e7500d2591, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
