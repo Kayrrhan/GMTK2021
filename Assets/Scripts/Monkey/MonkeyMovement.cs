@@ -10,7 +10,7 @@ public class MonkeyMovement : MonoBehaviour
     #region inspector
 
     [SerializeField]
-    Rigidbody _monkeyRb = null;
+    GameObject _monkey = null;
 
     [SerializeField]
     float _speed = 8f;
@@ -29,6 +29,8 @@ public class MonkeyMovement : MonoBehaviour
     bool _shouldJump = false;
 
     Collider _monkeyCollider = null;
+    
+    Rigidbody _monkeyRb = null;
 
     #endregion
 
@@ -40,8 +42,17 @@ public class MonkeyMovement : MonoBehaviour
         _controls.Main.Movement.performed += OnMovement;
         _controls.Main.Movement.canceled += OnMovement;
         _controls.Main.Jump.started += OnJump;
+        change();
+    }
 
+    void change(){
+        _monkeyRb = _monkey.GetComponent<Rigidbody>();
         _monkeyCollider = _monkeyRb.GetComponent<Collider>();
+    }
+
+    public void changeMonkey(GameObject monkey){
+        _monkey = monkey;
+        change();
     }
 
     void OnDestroy()
