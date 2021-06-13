@@ -14,6 +14,10 @@ public class MonkeyMovement : MonoBehaviour
     float _speed = 8f;
 
     [SerializeField]
+    [Range(0f, 1f)]
+    float _speedModifierInAir = 0.2f;
+
+    [SerializeField]
     float _jumpForce = 10f;
 
     [SerializeField]
@@ -37,7 +41,7 @@ public class MonkeyMovement : MonoBehaviour
 
     const RigidbodyConstraints REGULAR_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
 
-    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezeAll;
 
     const RigidbodyConstraints GRIP_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ;
 
@@ -113,6 +117,10 @@ public class MonkeyMovement : MonoBehaviour
         }
 
         Vector3 mvt = _movement.x * Vector3.right * _speed * Time.fixedDeltaTime;
+        if (!isGrounded)
+        {
+            mvt *= _speedModifierInAir;
+        }
         bool isMoving = mvt.x != 0f;
         if (isMoving)
         {
@@ -150,17 +158,34 @@ public class MonkeyMovement : MonoBehaviour
     #endregion
 
     #region private methods
+    void ManageKinematic(Monkey oldMonkey,Monkey newMonkey){
+            Coroutine cor = StartCoroutine(CheckOnGroundCoroutine(oldMonkey,newMonkey));
+            // StopCoroutine(cor);        
+        }
 
+    IEnumerator CheckOnGroundCoroutine(Monkey monkey,Monkey newMonkey){
+        for(;!monkey.IsGrounded();){
+            yield return new WaitForFixedUpdate();
+        }
+        if (monkey.typemonkey == Monkey.TestType.PATH)
+            monkey.rigidbody.isKinematic = true;
+        if (newMonkey.typemonkey == Monkey.TestType.PATH)
+            newMonkey.rigidbody.isKinematic = false;
+    }
     void OnMonkeySelected(Monkey oldMonkey, Monkey newMonkey)
     {
         if (newMonkey != null)
         {
             EnableConstraints(newMonkey, !newMonkey.isInChain);
+            if (newMonkey.typemonkey == Monkey.TestType.PATH)
+                newMonkey.rigidbody.isKinematic = false;
         }
         if (oldMonkey != null && oldMonkey != newMonkey && oldMonkey.typemonkey == Monkey.TestType.COPTERE){
             Rigidbody rb = oldMonkey.rigidbody;
             rb.constraints = FLY_CONSTRAINTS;
         }
+        if (oldMonkey != null && oldMonkey.typemonkey == Monkey.TestType.PATH)
+            ManageKinematic(oldMonkey,newMonkey);
     }
 
     void OnMovement(CallbackCtx ctx)
@@ -243,7 +268,7 @@ public class MonkeyMovement : MonoBehaviour
         {
             AttachToTarget(target);
         }
-        else
+        else if (!monkey.isInChain)
         {
             GripMonkey();
         }

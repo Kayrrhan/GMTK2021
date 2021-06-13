@@ -8,7 +8,8 @@ public class Monkey : MonoBehaviour
         Idle,
         Walk,
         Jump,
-        Grip
+        Grip,
+        Stop
     }
 
     public enum TestType 
@@ -49,6 +50,9 @@ public class Monkey : MonoBehaviour
     [SerializeField]
     Transform _rightHand = null;
 
+    [Header("Animations")]
+    [SerializeField]
+    GameObject _stopSign = null;
 
     #endregion
 
@@ -193,6 +197,10 @@ public class Monkey : MonoBehaviour
         _gripCollider.isTrigger = true;
         _otherGripCollider.isTrigger = true;
         _monkeyGripCollider.isTrigger = true;
+        if (_stopSign != null)
+        {
+            _stopSign.SetActive(false);
+        }
     }
 
     void OnDestroy()
@@ -204,6 +212,9 @@ public class Monkey : MonoBehaviour
         if (leftMonkey)
         {
             MonkeyMovement.DetachMonkey(leftMonkey, this, GripSide.Right);
+        }
+        if (PlayerManager.instance.selectedMonkey == this){
+            PlayerManager.instance.selectedMonkey = AutoSpawn.instance.lastInstance.GetComponent<Monkey>();
         }
     }
 
@@ -258,22 +269,7 @@ public class Monkey : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Mathf.Abs(this.rigidbody.velocity.y) > 0.05f)
-        {
-            return false;
-        }
-
-        int layer = LayerMask.NameToLayer("TempLayer");
-        int mask = ~(1 << layer | 1 << LayerMask.NameToLayer("Ignore Raycast"));
-        Bounds bounds = this.collider.bounds;
-        // Temporary apply layer to the current monkey.
-        int originalLayer = this.gameObject.layer;
-        this.rigidbody.gameObject.layer = layer;
-        bool res = Physics.CheckCapsule(bounds.center, bounds.center + (bounds.extents.y + 0.1f) * Vector3.down, 
-            bounds.size.x, mask, QueryTriggerInteraction.Ignore);
-        // Restore layer
-        this.gameObject.layer = originalLayer;
-        return res;
+        return Utils.IsGrounded(rigidbody, collider);
     }
 
     public void SetSide(int i)
@@ -293,6 +289,15 @@ public class Monkey : MonoBehaviour
         if (_animationState == state)
         {
             return;
+        }
+
+        if (state == AnimationState.Stop && _stopSign != null)
+        {
+            _stopSign.SetActive(true);
+        }
+        if (state != AnimationState.Stop && state == AnimationState.Stop && _stopSign != null)
+        {
+            _stopSign.SetActive(false);
         }
 
         _animationState = state;

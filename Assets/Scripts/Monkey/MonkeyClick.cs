@@ -14,11 +14,12 @@ public class MonkeyClick : MonoBehaviour
 
     [Inject]
     PlayerManager _playerManager = null;
+
+    [Inject]
+    EventManager _eventManager = null;
     
     MainControls _controls = null;
 
-    AutoSpawn _autospawn;
-    
     #endregion
 
     void Awake()
@@ -27,23 +28,31 @@ public class MonkeyClick : MonoBehaviour
         _controls.Main.Select.started += OnMouseClickLeft;
         _controls.Main.ExitSelection.started += OnSelectNewSpawned;
         _controls.Main.Unselect.started += OnMouseClickRight;
+
+        _eventManager.onAutoRunStarted.AddListener(OnAutoRunStarted);
     }
 
     void OnDestroy(){
     
         _controls.Main.Select.started -= OnMouseClickLeft;
         _controls.Main.Unselect.started -= OnMouseClickRight;
+
+        _eventManager.onAutoRunStarted.RemoveListener(OnAutoRunStarted);
     }
 
     void OnEnable()
     {
-        _autospawn = GameObject.Find("SpawnArea").GetComponent<AutoSpawn>();
         _controls.Enable();
     }
 
     void OnDisable()
     {
         _controls.Disable();
+    }
+
+    void OnAutoRunStarted()
+    {
+        enabled = false;
     }
 
     // Update is called once per frame
@@ -60,7 +69,7 @@ public class MonkeyClick : MonoBehaviour
     }
     
     void OnSelectNewSpawned(CallbackCtx ctx){
-        Monkey monkey = _autospawn.lastInstance.GetComponent<Monkey>();
+        Monkey monkey = AutoSpawn.instance.lastInstance.GetComponent<Monkey>();
         _playerManager.selectedMonkey = monkey;
     }
 
@@ -70,7 +79,7 @@ public class MonkeyClick : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(_controls.Main.Mouse.ReadValue<Vector2>());
         if (Physics.Raycast(ray, out hit, 100.0f)){
             if (hit.transform.gameObject.tag == "Monkey") {
-                if (_autospawn.lastInstance != hit.transform.gameObject) { 
+                if (AutoSpawn.instance.lastInstance != hit.transform.gameObject) { 
                     Destroy(hit.transform.gameObject);
                 }
             }

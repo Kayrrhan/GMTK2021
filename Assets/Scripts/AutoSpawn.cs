@@ -18,19 +18,60 @@ public class AutoSpawn : MonoBehaviour
 
     public List<Monkey.TestType> types;
 
+    [Header("Auto Monkeys")]
+    [SerializeField]
+    GameObject _autoMonkeyPrefab = null;
+
+    [SerializeField]
+    Vector3 _autoMonkeyDirection;
+
+    [SerializeField]
+    float _delayBetweenAutoMonkeys = 1f;
+
     [Inject]
     PlayerManager _playerManager = null;
+
+    [Inject]
+    EventManager _eventManager = null;
 
     public LevelBehaviour _levelBehaviour = null;
 
 
     int _count = 0;
 
+    bool _autoRun = false;
+
+    #region public properties
+
+    public static AutoSpawn instance { get; private set; } = null; // je crée un singleton parce qu'apparemment
+
+    #endregion
+
+    void Awake()
+    {
+        
+        if (instance == null)
+        {
+            instance = this;
+        _eventManager.onAutoRunTriggered.AddListener(AutoRun);
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
+
+    void OnDestroy()
+    {
+        _eventManager.onAutoRunTriggered.RemoveListener(AutoRun);
+    }
+
     void Start()
     {       
         CreateButtons(buttons,monkeys);
         spawnMonkey(0, true);
     }
+
     void spawnMonkey(int index, bool selectAuto){
         if(_levelBehaviour.SpawnMonkey())
         {
@@ -61,6 +102,41 @@ public class AutoSpawn : MonoBehaviour
          if (lastInstance != null)
             Destroy(lastInstance);
         spawnMonkey(index, true);
+    }
+
+    IEnumerator AutoRunSpawnCoroutine()
+    {
+        int count = LevelBehaviour.instance.LeftMonkeys;
+        Debug.Log("count = " + count);
+        for (int i=0; i<count; ++i)
+        {
+            var go = Instantiate(_autoMonkeyPrefab, spawn.position, Quaternion.identity);
+            var monkey = go.GetComponent<AutoMonkey>();
+            monkey.Run(_autoMonkeyDirection);
+            yield return new WaitForSeconds(_delayBetweenAutoMonkeys);
+        }
+    }
+
+    IEnumerator CheckOnGroundCoroutine(Monkey monkey)
+    {
+        while (!monkey.IsGrounded())
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        // kinematic ...
+    }
+
+    public void AutoRun()
+    {
+        if (_autoRun)
+        {
+            return;
+        }
+
+        _autoRun = true;
+        _eventManager.FireAutoRunStarted();
+        Debug.Log("AUTORUN STARTED");
+        StartCoroutine(AutoRunSpawnCoroutine());
     }
 
 }

@@ -5,12 +5,16 @@ using UnityEngine;
 public class EndBehaviour : MonoBehaviour
 {
     [SerializeField]
-    LevelBehaviour _levelBehaviour;
+    LevelBehaviour currentLevelBehaviour;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        _levelBehaviour.MonkeyFinish();
-        Debug.Log(collision.gameObject.name);
-        Destroy(collision.gameObject);
+        AutoMonkey monkey = collider.gameObject.GetComponent<AutoMonkey>();
+        if (monkey != null)
+        {
+            currentLevelBehaviour.MonkeyFinish();
+            Debug.Log(collider.gameObject.name);
+            Destroy(collider.gameObject);
+        }
     }
 }
