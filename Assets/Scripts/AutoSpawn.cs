@@ -37,6 +37,7 @@ public class AutoSpawn : MonoBehaviour
             lastInstance = Instantiate(other.gameObject,spawn.position,Quaternion.identity);
             lastInstance.name = monkeyPrefab.name + $" {++_count} ";        
         }
+    }
 
     public void CreateButtons(List<Button> buttons,List<GameObject> monkeys){
         for(var i = 0;i<Math.Min(monkeys.Count,buttons.Count);++i){
@@ -44,6 +45,7 @@ public class AutoSpawn : MonoBehaviour
             buttons[copy].onClick.AddListener(()=>SwitchMonkey(monkeys[copy]));
         }
     }
+
     void SwitchMonkey(GameObject monkey){
          if (lastInstance != null)
             Destroy(lastInstance);
