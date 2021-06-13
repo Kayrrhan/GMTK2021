@@ -10,11 +10,17 @@ public class MainUI : MonoBehaviour
     #region inspector
 
     [SerializeField]
-    Text _gripButtonText = null;
+    Button _gripButtonRight = null;
 
-    
     [SerializeField]
-    Text _resetButtonText = null;
+    Text _gripButtonRightText = null;
+
+    [SerializeField]
+    Button _gripButtonLeft = null;
+
+
+    [SerializeField]
+    Text _gripButtonLeftText = null;
 
     #endregion
 
@@ -22,6 +28,9 @@ public class MainUI : MonoBehaviour
 
     [Inject]
     EventManager _eventManager;
+
+    [Inject]
+    PlayerManager _playerManager;
 
     #endregion
 
@@ -37,24 +46,47 @@ public class MainUI : MonoBehaviour
 
     #region private methods
 
-    void OnMonkeyGripped(Monkey monkey, bool gripped)
+    void OnMonkeyGripped(Monkey monkey, bool gripped, GripSide side)
     {
-        _gripButtonText.text = gripped ? "Drop" : "Grip";
+        UpdateGripButtons();
     }
 
 
     void OnMonkeySelection(Monkey oldMonkey, Monkey newMonkey)
     {
-        _gripButtonText.text = newMonkey.gripJoint != null ? "Drop" : "Grip";
+        UpdateGripButtons();
+    }
+
+    void UpdateGripButtons()
+    {
+        Monkey monkey = _playerManager.selectedMonkey;
+        if (monkey == null)
+        {
+            _gripButtonLeft.interactable = false;
+            _gripButtonRight.interactable = false;
+        }
+        else
+        {
+            _gripButtonLeft.interactable = true;
+            _gripButtonRight.interactable = true;
+
+            _gripButtonLeftText.text = monkey.isLeftSideGrip ? "Drop Left" : "Grip Left";
+            _gripButtonRightText.text = monkey.isRightSideGrip ? "Drop Right" : "Grip Right";
+        }
     }
 
     #endregion
 
     #region public methods
 
-    public void OnGripButtonClicked()
+    public void OnGripButtonClicked(int side)
     {
-        _eventManager.FireMonkeyGrip();
+        OnGripButtonClicked(side >= 0 ? GripSide.Right : GripSide.Left);
+    }
+
+    public void OnGripButtonClicked(GripSide side)
+    {
+        _eventManager.FireMonkeyGrip(side);
     }
 
 
