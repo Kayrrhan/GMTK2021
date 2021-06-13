@@ -51,8 +51,15 @@ public class LevelBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (leftMonkeys == 0 && spawnMonkeys == 0)
+        if (leftMonkeys <= 0 && spawnMonkeys <= 0)
+        {
             LevelFinished();
+        }
+    }
+
+    public void MonkeyDied()
+    {
+        spawnMonkeys--;
     }
 
     public void MonkeyFinish()
@@ -61,20 +68,23 @@ public class LevelBehaviour : MonoBehaviour
         passedMonkeys++;
     }
 
-    public void SpawnMonkey()
+    public bool SpawnMonkey()
     {
         if(leftMonkeys != 0)
         {
             leftMonkeys--;
             spawnMonkeys++;
+            return true;
         }
+        return false;
     }
 
     private void LevelFinished()
     {
+        Debug.Log(string.Format("{0} >= {1} : {2}", passedMonkeys, minToWin, passedMonkeys >= minToWin));
         if(passedMonkeys >= minToWin)
         {
-            SceneManager.LoadScene(currentScene++);
+            SceneManager.LoadScene(currentScene+1);
         }
         else
         {

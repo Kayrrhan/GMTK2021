@@ -34,6 +34,9 @@ public class AutoSpawn : MonoBehaviour
     [Inject]
     EventManager _eventManager = null;
 
+    public LevelBehaviour _levelBehaviour = null;
+
+
     int _count = 0;
 
     bool _autoRun = false;
@@ -70,14 +73,17 @@ public class AutoSpawn : MonoBehaviour
     }
 
     void spawnMonkey(int index, bool selectAuto){
-        GameObject currentMonkey  =  monkeys[index];
-        lastInstance = Instantiate(currentMonkey,spawn.position,Quaternion.identity);
-        lastInstance.name = currentMonkey.name + $" {++_count} ";   
-        Monkey monkey = lastInstance.GetComponent<Monkey>();
+        if(_levelBehaviour.SpawnMonkey())
+        {
+            GameObject currentMonkey  =  monkeys[index];
+            lastInstance = Instantiate(currentMonkey,spawn.position,Quaternion.identity);
+            lastInstance.name = currentMonkey.name + $" {++_count} ";   
+            Monkey monkey = lastInstance.GetComponent<Monkey>();
 
-        monkey.typemonkey = types[index];
-        if (selectAuto){   
-            _playerManager.selectedMonkey = monkey;
+            monkey.typemonkey = types[index];
+            if (selectAuto){   
+                _playerManager.selectedMonkey = monkey;
+            }
         }   
     }
 
