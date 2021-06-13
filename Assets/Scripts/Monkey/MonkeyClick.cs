@@ -14,6 +14,9 @@ public class MonkeyClick : MonoBehaviour
 
     [Inject]
     PlayerManager _playerManager = null;
+
+    [Inject]
+    EventManager _eventManager = null;
     
     MainControls _controls = null;
 
@@ -27,12 +30,16 @@ public class MonkeyClick : MonoBehaviour
         _controls.Main.Select.started += OnMouseClickLeft;
         _controls.Main.ExitSelection.started += OnSelectNewSpawned;
         _controls.Main.Unselect.started += OnMouseClickRight;
+
+        _eventManager.onAutoRunStarted.AddListener(OnAutoRunStarted);
     }
 
     void OnDestroy(){
     
         _controls.Main.Select.started -= OnMouseClickLeft;
         _controls.Main.Unselect.started -= OnMouseClickRight;
+
+        _eventManager.onAutoRunStarted.RemoveListener(OnAutoRunStarted);
     }
 
     void OnEnable()
@@ -44,6 +51,11 @@ public class MonkeyClick : MonoBehaviour
     void OnDisable()
     {
         _controls.Disable();
+    }
+
+    void OnAutoRunStarted()
+    {
+        enabled = false;
     }
 
     // Update is called once per frame

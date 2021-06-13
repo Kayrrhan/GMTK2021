@@ -19,17 +19,33 @@ public class LevelBehaviour : MonoBehaviour
     private int minToWin;
     private int currentScene;
 
+    public static LevelBehaviour instance { get; private set; } = null;
+
+    public int LeftMonkeys => leftMonkeys;
+
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
+
         leftMonkeys = maxMonkeys;
         minToWin = (int)Math.Round(maxMonkeys * percentToSucceed);
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void OnDestroy()
     {
-        
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 
     // Update is called once per frame

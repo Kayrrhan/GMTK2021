@@ -44,6 +44,7 @@ public class PlayerManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            _eventManager.onAutoRunStarted.AddListener(OnAutoRunStarted);
         }
         else if (instance != this)
         {
@@ -56,10 +57,16 @@ public class PlayerManager : MonoBehaviour
         if (instance == this)
         {
             instance = null;
+            _eventManager.onAutoRunStarted.RemoveListener(OnAutoRunStarted);
         }
     }
     #endregion
 
-    #region public methods
+    #region private methods
+
+    void OnAutoRunStarted()
+    {
+        selectedMonkey = null;
+    }
     #endregion
 }

@@ -944,3 +944,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   types: 000000000000000000000000
+  _autoMonkeyPrefab: {fileID: 8908050699298677869, guid: 6f9d00da575b48f4e87b530cf8250c5d, type: 3}
+  _autoMonkeyDirection: {x: 1, y: 0, z: 0}
+  _delayBetweenAutoMonkeys: 1

@@ -14,6 +14,10 @@ public class MonkeyMovement : MonoBehaviour
     float _speed = 8f;
 
     [SerializeField]
+    [Range(0f, 1f)]
+    float _speedModifierInAir = 0.2f;
+
+    [SerializeField]
     float _jumpForce = 10f;
 
     [SerializeField]
@@ -37,7 +41,7 @@ public class MonkeyMovement : MonoBehaviour
 
     const RigidbodyConstraints REGULAR_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
 
-    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezeAll;
 
     const RigidbodyConstraints GRIP_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ;
 
@@ -113,6 +117,10 @@ public class MonkeyMovement : MonoBehaviour
         }
 
         Vector3 mvt = _movement.x * Vector3.right * _speed * Time.fixedDeltaTime;
+        if (!isGrounded)
+        {
+            mvt *= _speedModifierInAir;
+        }
         bool isMoving = mvt.x != 0f;
         if (isMoving)
         {
