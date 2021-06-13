@@ -243,7 +243,7 @@ public class MonkeyMovement : MonoBehaviour
         {
             AttachToTarget(target);
         }
-        else
+        else if (!monkey.isInChain)
         {
             GripMonkey();
         }
