@@ -4300,6 +4300,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1519081835}
+    - target: {fileID: 7735577038375736825, guid: 3e270758b8317ea4e90c945e26ac8f2d, type: 3}
+      propertyPath: _autoMonkeyDirection.x
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e270758b8317ea4e90c945e26ac8f2d, type: 3}
 --- !u!43 &2080201569

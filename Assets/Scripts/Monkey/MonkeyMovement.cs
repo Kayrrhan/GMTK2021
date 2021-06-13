@@ -168,9 +168,15 @@ public class MonkeyMovement : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         if (monkey.typemonkey == Monkey.TestType.PATH)
+        {
             monkey.rigidbody.isKinematic = true;
+            monkey.SetAnimationState(Monkey.AnimationState.Stop);
+        }
         if (newMonkey.typemonkey == Monkey.TestType.PATH)
+        {
             newMonkey.rigidbody.isKinematic = false;
+            monkey.SetAnimationState(Monkey.AnimationState.Idle);
+        }
     }
     void OnMonkeySelected(Monkey oldMonkey, Monkey newMonkey)
     {

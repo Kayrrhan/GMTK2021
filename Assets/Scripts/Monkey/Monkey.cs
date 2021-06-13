@@ -50,10 +50,6 @@ public class Monkey : MonoBehaviour
     [SerializeField]
     Transform _rightHand = null;
 
-    [Header("Animations")]
-    [SerializeField]
-    GameObject _stopSign = null;
-
     #endregion
 
     #region private members
@@ -208,10 +204,6 @@ public class Monkey : MonoBehaviour
         _gripCollider.isTrigger = true;
         _otherGripCollider.isTrigger = true;
         _monkeyGripCollider.isTrigger = true;
-        if (_stopSign != null)
-        {
-            _stopSign.SetActive(false);
-        }
     }
 
     void OnDestroy()
@@ -302,15 +294,6 @@ public class Monkey : MonoBehaviour
         if (_animationState == state)
         {
             return;
-        }
-
-        if (state == AnimationState.Stop && _stopSign != null)
-        {
-            _stopSign.SetActive(true);
-        }
-        if (state != AnimationState.Stop && state == AnimationState.Stop && _stopSign != null)
-        {
-            _stopSign.SetActive(false);
         }
 
         _animationState = state;
