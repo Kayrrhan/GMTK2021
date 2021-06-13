@@ -80,11 +80,13 @@ public class LevelBehaviour : MonoBehaviour
     }
 
     private void LevelFinished()
-    {
-        Debug.Log(string.Format("{0} >= {1} : {2}", passedMonkeys, minToWin, passedMonkeys >= minToWin));
+    { 
         if(passedMonkeys >= minToWin)
         {
-            SceneManager.LoadScene(currentScene+1);
+            int loadScene = currentScene+1;
+            if (currentScene == 3)
+                loadScene = 0;
+            SceneManager.LoadScene(loadScene);
         }
         else
         {
