@@ -18,7 +18,8 @@ public class MonkeyClick : MonoBehaviour
     MainControls _controls = null;
 
     AutoSpawn _autospawn;
-    
+
+    EventManager _eventManager;
     #endregion
 
     void Awake()
@@ -46,6 +47,7 @@ public class MonkeyClick : MonoBehaviour
         _controls.Disable();
     }
 
+    
     // Update is called once per frame
     void OnMouseClickLeft(CallbackCtx ctx)
     {
@@ -61,6 +63,7 @@ public class MonkeyClick : MonoBehaviour
     
     void OnSelectNewSpawned(CallbackCtx ctx){
         Monkey monkey = _autospawn.lastInstance.GetComponent<Monkey>();
+        // _previousMonkey = _playerManager.selectedMonkey;
         _playerManager.selectedMonkey = monkey;
     }
 
