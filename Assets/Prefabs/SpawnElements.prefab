@@ -935,5 +935,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {fileID: 7556233773359943814}
-  monkeyPrefab: {fileID: 8908050699298677869, guid: 25e2f3771b189624980b00984b5de4e4, type: 3}
-  lastInstance: {fileID: 0}
+  monkeys:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buttons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  types: 000000000000000000000000
+  _autoMonkeyPrefab: {fileID: 8908050699298677869, guid: 6f9d00da575b48f4e87b530cf8250c5d, type: 3}
+  _autoMonkeyDirection: {x: 1, y: 0, z: 0}
+  _delayBetweenAutoMonkeys: 1

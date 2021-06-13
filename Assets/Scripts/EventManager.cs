@@ -13,6 +13,10 @@ public class EventManager : MonoBehaviour
 
     public UnityEvent<Monkey, Monkey> onMonkeySelected = null;
 
+    public UnityEvent onAutoRunTriggered = null;
+
+    public UnityEvent onAutoRunStarted = null;
+
     #endregion
 
     #region public methods
@@ -30,6 +34,16 @@ public class EventManager : MonoBehaviour
     public void FireMonkeySelected(Monkey oldMonkey, Monkey newMonkey)
     {
         onMonkeySelected?.Invoke(oldMonkey, newMonkey);
+    }
+
+    public void FireAutoRunTriggered()
+    {
+        onAutoRunTriggered?.Invoke();
+    }
+
+    public void FireAutoRunStarted()
+    {
+        onAutoRunStarted?.Invoke();
     }
     
     #endregion

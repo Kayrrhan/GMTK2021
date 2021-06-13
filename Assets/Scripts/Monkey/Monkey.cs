@@ -258,22 +258,7 @@ public class Monkey : MonoBehaviour
 
     public bool IsGrounded()
     {
-        if (Mathf.Abs(this.rigidbody.velocity.y) > 0.05f)
-        {
-            return false;
-        }
-
-        int layer = LayerMask.NameToLayer("TempLayer");
-        int mask = ~(1 << layer | 1 << LayerMask.NameToLayer("Ignore Raycast"));
-        Bounds bounds = this.collider.bounds;
-        // Temporary apply layer to the current monkey.
-        int originalLayer = this.gameObject.layer;
-        this.rigidbody.gameObject.layer = layer;
-        bool res = Physics.CheckCapsule(bounds.center, bounds.center + (bounds.extents.y + 0.1f) * Vector3.down, 
-            bounds.size.x, mask, QueryTriggerInteraction.Ignore);
-        // Restore layer
-        this.gameObject.layer = originalLayer;
-        return res;
+        return Utils.IsGrounded(rigidbody, collider);
     }
 
     public void SetSide(int i)
