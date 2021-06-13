@@ -263,6 +263,7 @@ public class MonkeyMovement : MonoBehaviour
             if (target != null && target != monkey)
             {
                 AttachMonkey(monkey, target);
+                break;
             }
         }
     }
@@ -342,17 +343,19 @@ public class MonkeyMovement : MonoBehaviour
         {
             // Explode chain
             chain.GoToLeft();
-            foreach (var m in chain.LeftToRight())
+            List<Monkey> monkeysInChain = new List<Monkey>(chain.LeftToRight());
+            foreach (var m in monkeysInChain)
             {
                 if (m.jointOnMonkey != null)
                 {
-                    m.rightMonkey = null;
-                    m.leftMonkey = null;
                     Destroy(m.jointOnMonkey);
-                    Debug.Log(m.name + " explode chain");
-                    m.SetAnimationState(Monkey.AnimationState.Idle);
-                    EnableConstraints(m, true);
                 }
+                m.rightMonkey = null;
+                m.leftMonkey = null;
+
+                Debug.Log(m.name + " explode chain");
+                m.SetAnimationState(Monkey.AnimationState.Idle);
+                EnableConstraints(m, true);
             }
         }
     }
@@ -363,7 +366,11 @@ public class MonkeyMovement : MonoBehaviour
         Destroy(monkey.gripJointOnWall);
         monkey.gripJointOnWall = null;
         _eventManager.FireMonkeyGripped(monkey, false, side);
-        if (monkey.isFreeToGrip)
+        if (monkey.isInChain)
+        {
+            CheckChainDestruction(monkey);
+        }
+        if (!monkey.isInChain)
         {
             EnableConstraints(monkey, true);
         }
@@ -409,12 +416,10 @@ public class MonkeyMovement : MonoBehaviour
             jointToDestroy = monkeyToDetach.jointOnMonkey;
         }
 
-        if (jointToDestroy == null)
+        if (jointToDestroy != null)
         {
-            return;
+            Destroy(jointToDestroy);
         }
-
-        Destroy(jointToDestroy);
 
         // Chain logic
         if (side == GripSide.Right)
@@ -431,11 +436,11 @@ public class MonkeyMovement : MonoBehaviour
         CheckChainDestruction(monkeyToDetach);
         CheckChainDestruction(monkeyTarget);
 
-        if (monkeyToDetach.isFreeToGrip)
+        if (!monkeyToDetach.isInChain)
         {
             EnableConstraints(monkeyToDetach, true);
         }
-        if (monkeyTarget.isFreeToGrip)
+        if (!monkeyTarget.isInChain)
         {
             EnableConstraints(monkeyTarget, true);
         }
