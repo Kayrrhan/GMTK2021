@@ -365,7 +365,6 @@ public class MonkeyMovement : MonoBehaviour
         Monkey monkey = _playerManager.selectedMonkey;
         Destroy(monkey.gripJointOnWall);
         monkey.gripJointOnWall = null;
-        _eventManager.FireMonkeyGripped(monkey, false, side);
         if (monkey.isInChain)
         {
             CheckChainDestruction(monkey);
@@ -374,6 +373,7 @@ public class MonkeyMovement : MonoBehaviour
         {
             EnableConstraints(monkey, true);
         }
+        _eventManager.FireMonkeyGripped(monkey, false, side);
     }
 
     void AttachToTarget(Rigidbody target)
