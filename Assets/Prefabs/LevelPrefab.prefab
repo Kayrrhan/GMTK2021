@@ -193,6 +193,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7556233775117875580, guid: 69429f2748b1eb14bba38e48cbea9977, type: 3}
+      propertyPath: _levelBehaviour
+      value: 
+      objectReference: {fileID: 3350219725552268056}
+    - target: {fileID: 7556233775117875580, guid: 69429f2748b1eb14bba38e48cbea9977, type: 3}
       propertyPath: types.Array.data[1]
       value: 1
       objectReference: {fileID: 0}
@@ -238,6 +242,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3747662564695083372}
     m_Modifications:
+    - target: {fileID: 476761540763329798, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476761540763329798, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476761540763329798, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476761540763329798, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695964089175922213, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695964089175922213, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695964089175922213, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1695964089175922213, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2241040327197669973, guid: 0a52c366e409df74094869e7500d2591, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -482,6 +518,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7421523079171853688, guid: 0a52c366e409df74094869e7500d2591, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a52c366e409df74094869e7500d2591, type: 3}
 --- !u!4 &7145633805805989094 stripped
@@ -651,6 +703,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DestroyFloor
       objectReference: {fileID: 0}
+    - target: {fileID: 4015004896601318976, guid: fdb70db62a228d04ab18a1548a7d7150, type: 3}
+      propertyPath: _levelBehaviour
+      value: 
+      objectReference: {fileID: 3350219725552268056}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdb70db62a228d04ab18a1548a7d7150, type: 3}
 --- !u!4 &270254933354987843 stripped
@@ -713,6 +769,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6390853397755682192, guid: c3f6af534b340164aae0f6dae1f18dcc, type: 3}
+      propertyPath: m_SelectedEdges.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6390853397755682192, guid: c3f6af534b340164aae0f6dae1f18dcc, type: 3}
+      propertyPath: m_SelectedVertices.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6390853397755682197, guid: c3f6af534b340164aae0f6dae1f18dcc, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -725,6 +789,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FinishLevelElements
       objectReference: {fileID: 0}
+    - target: {fileID: 8497179463614816457, guid: c3f6af534b340164aae0f6dae1f18dcc, type: 3}
+      propertyPath: _levelBehaviour
+      value: 
+      objectReference: {fileID: 3350219725552268056}
     - target: {fileID: 8497179463614816457, guid: c3f6af534b340164aae0f6dae1f18dcc, type: 3}
       propertyPath: currentLevelBehaviour
       value: 

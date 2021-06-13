@@ -5,11 +5,11 @@ using UnityEngine;
 public class EndBehaviour : MonoBehaviour
 {
     [SerializeField]
-    LevelBehaviour currentLevelBehaviour;
+    LevelBehaviour _levelBehaviour;
 
     private void OnCollisionEnter(Collision collision)
     {
-        currentLevelBehaviour.MonkeyFinish();
+        _levelBehaviour.MonkeyFinish();
         Debug.Log(collision.gameObject.name);
         Destroy(collision.gameObject);
     }
