@@ -1010,7 +1010,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 370625141}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnSettingsClick
+        m_MethodName: OnSettingsClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1143,7 +1143,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 370625141}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnExitClick
+        m_MethodName: OnExitClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1276,7 +1276,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 370625141}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnContinueClick
+        m_MethodName: OnContinueClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1488,7 +1488,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 370625141}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnNewGameClick
+        m_MethodName: OnNewGameClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1765,7 +1765,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 370625141}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: OnLoadGameClick
+        m_MethodName: OnLoadGameClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
