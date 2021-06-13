@@ -19,6 +19,9 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region public properties
+    
+    public static PlayerManager instance { get; private set; } = null; // je crée un singleton parce qu'apparemment
+    // Zenject ne gère pas les objets instanciés à la volée ...
 
     [SerializeField]
     public Monkey selectedMonkey
@@ -35,6 +38,26 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region private methods
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
     #endregion
 
     #region public methods

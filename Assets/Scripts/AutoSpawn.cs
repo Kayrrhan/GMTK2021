@@ -9,12 +9,19 @@ using Zenject;
 public class AutoSpawn : MonoBehaviour
 {
     public Transform spawn;
+    public GameObject monkeyPrefab;
+    
+    [System.NonSerialized]
+    public GameObject lastInstance;
+
     public List<GameObject> monkeys;
     public List<Button> buttons;
-    public GameObject lastInstance;
+    
 
     [Inject]
     PlayerManager _playerManager = null;
+
+    int _count = 0;
 
     void Start()
     {
@@ -25,8 +32,11 @@ public class AutoSpawn : MonoBehaviour
 
     void OnTriggerExit(Collider other){
         if (other.gameObject == lastInstance)
-                lastInstance = Instantiate(other.gameObject,spawn.position,Quaternion.identity);
-                
+        {
+            // lastInstance = Instantiate(monkeyPrefab,spawn.position,Quaternion.identity);
+            lastInstance = Instantiate(other.gameObject,spawn.position,Quaternion.identity);
+            lastInstance.name = monkeyPrefab.name + $" {++_count} ";        
+        }
     }
 
     public void CreateButtons(List<Button> buttons,List<GameObject> monkeys){
@@ -35,6 +45,7 @@ public class AutoSpawn : MonoBehaviour
             buttons[copy].onClick.AddListener(()=>SwitchMonkey(monkeys[copy]));
         }
     }
+
     void SwitchMonkey(GameObject monkey){
          if (lastInstance != null)
             Destroy(lastInstance);

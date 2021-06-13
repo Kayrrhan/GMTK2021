@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class Monkey : MonoBehaviour
 {
@@ -16,6 +17,12 @@ public class Monkey : MonoBehaviour
     BoxCollider _gripCollider = null;
 
     [SerializeField]
+    BoxCollider _otherGripCollider = null;
+
+    [SerializeField]
+    BoxCollider _monkeyGripCollider = null;
+
+    [SerializeField]
     Transform _model = null;
 
     [SerializeField]
@@ -24,6 +31,9 @@ public class Monkey : MonoBehaviour
     [Header("Grip parameters")]
     [SerializeField]
     Transform _anchor = null;
+
+    [SerializeField]
+    Transform _otherAnchor = null;
 
     [SerializeField]
     Transform _leftHand = null;
@@ -35,9 +45,7 @@ public class Monkey : MonoBehaviour
 
     #region private members
 
-    float _gripColliderX;
-
-    float _anchorX;
+    HingeJoint _jointOnMonkey = null;
 
     Rigidbody _rigidbody = null;
 
@@ -57,7 +65,82 @@ public class Monkey : MonoBehaviour
 
     public BoxCollider gripCollider => _gripCollider;
 
-    public HingeJoint gripJoint { get; set; } = null;
+    public BoxCollider otherGripCollider => _otherGripCollider;
+
+    public BoxCollider monkeyGripCollider => _monkeyGripCollider;
+
+    public HingeJoint gripJointOnWall { get; set; } = null;
+
+    /// <summary>
+    /// Cached version of this.GetComponent(typeof(HingeJoint)). != attachedGripJoint.
+    /// </summary>
+    /// <value></value>
+    public HingeJoint jointOnMonkey
+    {
+        get
+        {
+            if (_jointOnMonkey == null)
+            {
+                _jointOnMonkey = GetComponent<HingeJoint>();
+            }
+            return _jointOnMonkey;
+        }
+    }
+
+    /// <summary>
+    /// The joint attached to the monkey. Not equal to this.GetComponent(typeof(HingeJoint))
+    /// </summary>
+    public HingeJoint attachedGripJoint
+    {
+        get
+        {
+            var joint = rightGripJoint;
+            if (joint != null && joint.connectedBody == rigidbody)
+            {
+                return joint;
+            }
+            joint = leftGripJoint;
+            if (joint != null && joint.connectedBody == rigidbody)
+            {
+                return joint;
+            }
+            return null;
+        }
+    }
+
+    public HingeJoint rightGripJoint 
+    {
+        get
+        {
+            if (rightMonkey != null)
+            {
+                return rightMonkey.jointOnMonkey;
+            }
+
+            if (leftMonkey == null)
+            {
+                return side >= 0 ? gripJointOnWall : null;
+            }
+            return gripJointOnWall;
+        }
+    }
+
+    public HingeJoint leftGripJoint
+    {
+        get
+        {
+            if (leftMonkey != null)
+            {
+                return leftMonkey.jointOnMonkey;
+            }
+
+            if (rightMonkey == null)
+            {
+                return side < 0 ? gripJointOnWall : null;
+            }
+            return gripJointOnWall;
+        }
+    }
 
     public AnimationState animationState => _animationState;
 
@@ -66,6 +149,22 @@ public class Monkey : MonoBehaviour
     public Transform leftHand => _leftHand;
 
     public Transform anchor => _anchor;
+
+    public Transform otherAnchor => _otherAnchor;
+
+    public bool isRightSideGrip => rightMonkey != null || rightGripJoint != null;
+
+    public bool isLeftSideGrip => leftMonkey != null || leftGripJoint != null;
+
+    public bool isFreeToGrip => !isRightSideGrip || !isLeftSideGrip;
+
+    public int side => _side;
+
+    public Monkey rightMonkey { get; set; } = null;
+
+    public Monkey leftMonkey { get; set; } = null;
+
+    public bool isInChain => gripJointOnWall != null || rightMonkey != null || leftMonkey != null;
 
     #endregion
 
@@ -78,16 +177,49 @@ public class Monkey : MonoBehaviour
 
         // Make sure grip collider is trigger.
         _gripCollider.isTrigger = true;
-        _gripColliderX = _gripCollider.transform.localPosition.x;
-        _anchorX = _anchor.transform.localPosition.x;
+        _otherGripCollider.isTrigger = true;
+        _monkeyGripCollider.isTrigger = true;
+    }
+
+    void OnDestroy()
+    {
+        if (rightMonkey)
+        {
+            MonkeyMovement.DetachMonkey(rightMonkey, this, GripSide.Left);
+        }
+        if (leftMonkey)
+        {
+            MonkeyMovement.DetachMonkey(leftMonkey, this, GripSide.Right);
+        }
+    }
+
+    void Update()
+    {
+        if (PlayerManager.instance.selectedMonkey != this && animationState != AnimationState.Grip)
+        {
+            if (IsGrounded())
+            {
+                SetAnimationState(AnimationState.Idle);
+            }
+            else
+            {
+                SetAnimationState(AnimationState.Jump);
+            }
+        }
     }
 
     void LateUpdate()
     {
-        if (_animationState == AnimationState.Grip && gripJoint != null)
+        var joint = attachedGripJoint;
+        if (_animationState == AnimationState.Grip && joint != null)
         {
             // It's always the left hand because we invert the horizontal scale of the model.
-            _leftHand.position = gripJoint.transform.TransformPoint(gripJoint.anchor);
+            _leftHand.position = joint.transform.TransformPoint(joint.anchor);
+
+            if (IsEndOfFullChain())
+            {
+                _rightHand.position = gripJointOnWall.transform.TransformPoint(gripJointOnWall.anchor);
+            }
         }
     }
 
@@ -95,18 +227,60 @@ public class Monkey : MonoBehaviour
 
     #region public methods
 
+    public HingeJoint GetJoint(GripSide side) => side == GripSide.Left ? leftGripJoint : rightGripJoint;
+
+    public Monkey GetNeighbour(GripSide side) => side == GripSide.Left ? leftMonkey : rightMonkey;
+
+    public bool IsEndOfFullChain()
+    {
+        if (gripJointOnWall == null)
+        {
+            return false;
+        }
+
+        return (leftMonkey && leftMonkey.jointOnMonkey != null && leftMonkey.jointOnMonkey.connectedBody == rigidbody) ||
+            (rightMonkey && rightMonkey.jointOnMonkey != null && rightMonkey.jointOnMonkey.connectedBody == rigidbody);
+    }
+
+    public bool IsGrounded()
+    {
+        if (Mathf.Abs(this.rigidbody.velocity.y) > 0.05f)
+        {
+            return false;
+        }
+
+        int layer = LayerMask.NameToLayer("TempLayer");
+        int mask = ~(1 << layer | 1 << LayerMask.NameToLayer("Ignore Raycast"));
+        Bounds bounds = this.collider.bounds;
+        // Temporary apply layer to the current monkey.
+        int originalLayer = this.gameObject.layer;
+        this.rigidbody.gameObject.layer = layer;
+        bool res = Physics.CheckCapsule(bounds.center, bounds.center + (bounds.extents.y + 0.1f) * Vector3.down, 
+            bounds.size.x, mask, QueryTriggerInteraction.Ignore);
+        // Restore layer
+        this.gameObject.layer = originalLayer;
+        return res;
+    }
+
     public void SetSide(int i)
     {
         _side = i >= 0 ? 1 : -1;
         _model.localScale = new Vector3(_side, 1, 1);
         Vector3 localPos = _gripCollider.transform.localPosition;
-        _gripCollider.transform.localPosition = new Vector3(_gripColliderX * _side, localPos.y, localPos.z);
+        _gripCollider.transform.localPosition = new Vector3(Mathf.Abs(localPos.x) * _side, localPos.y, localPos.z);
+        localPos = _otherGripCollider.transform.localPosition;
+        _otherGripCollider.transform.localPosition = new Vector3(Mathf.Abs(localPos.x) * -_side, localPos.y, localPos.z);
         localPos = _anchor.transform.localPosition;
-        _anchor.transform.localPosition = new Vector3(_anchorX * _side, localPos.y, localPos.z);
+        _anchor.transform.localPosition = new Vector3(Mathf.Abs(localPos.x) * _side, localPos.y, localPos.z);
     }
 
     public void SetAnimationState(AnimationState state)
     {
+        if (_animationState == state)
+        {
+            return;
+        }
+
         _animationState = state;
         _animator.Play(_animationState.ToString());
     }
