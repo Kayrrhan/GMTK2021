@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1529335547754372824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1338728008699109799}
+  - component: {fileID: 8996045790690097548}
+  m_Layer: 6
+  m_Name: GripColliderMonkey
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1338728008699109799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529335547754372824}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8908050699298677875}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8996045790690097548
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529335547754372824}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3998802429777631634
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8908050699251308608}
   - component: {fileID: 8908050699251308611}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GripCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +149,7 @@ GameObject:
   - component: {fileID: 8908050699298677874}
   - component: {fileID: 8908050699298677873}
   - component: {fileID: 8908050699298677872}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Monkey
   m_TagString: Monkey
   m_Icon: {fileID: 0}
@@ -126,6 +170,7 @@ Transform:
   - {fileID: 8908050701064276409}
   - {fileID: 8908050699251308608}
   - {fileID: 2935196123796550139}
+  - {fileID: 1338728008699109799}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
