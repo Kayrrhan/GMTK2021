@@ -19,7 +19,7 @@ public class MonkeyClick : MonoBehaviour
     EventManager _eventManager = null;
     
     MainControls _controls = null;
-    
+
     #endregion
 
     void Awake()
