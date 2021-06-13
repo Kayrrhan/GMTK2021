@@ -25,6 +25,7 @@ public class MonkeyClick : MonoBehaviour
     {
         _controls = new MainControls();
         _controls.Main.Select.started += OnMouseClickLeft;
+        _controls.Main.ExitSelection.started += OnSelectNewSpawned;
         _controls.Main.Unselect.started += OnMouseClickRight;
     }
 
@@ -58,6 +59,11 @@ public class MonkeyClick : MonoBehaviour
         }
     }
     
+    void OnSelectNewSpawned(CallbackCtx ctx){
+        Monkey monkey = _autospawn.lastInstance.GetComponent<Monkey>();
+        _playerManager.selectedMonkey = monkey;
+    }
+
     void OnMouseClickRight(CallbackCtx ctx)
     {
         RaycastHit hit;

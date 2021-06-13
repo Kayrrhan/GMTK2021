@@ -11,6 +11,14 @@ public class Monkey : MonoBehaviour
         Grip
     }
 
+    public enum TestType 
+    {
+        NORMAL,
+        COPTERE,
+
+        PATH
+    }
+
     #region inspector
 
     [SerializeField]
@@ -41,6 +49,7 @@ public class Monkey : MonoBehaviour
     [SerializeField]
     Transform _rightHand = null;
 
+
     #endregion
 
     #region private members
@@ -54,6 +63,7 @@ public class Monkey : MonoBehaviour
     AnimationState _animationState = AnimationState.Idle;
 
     int _side = 1;
+
 
     #endregion
 
@@ -149,6 +159,10 @@ public class Monkey : MonoBehaviour
     public Transform leftHand => _leftHand;
 
     public Transform anchor => _anchor;
+
+
+    [SerializeField]
+    public TestType typemonkey { get; set; } = TestType.NORMAL;
 
     public Transform otherAnchor => _otherAnchor;
 
