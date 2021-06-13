@@ -65,6 +65,14 @@ public class @MainControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""37c45e0a-d24f-4b6e-ad64-dc5d9713a1df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -232,6 +240,17 @@ public class @MainControls : IInputActionCollection, IDisposable
                     ""action"": ""ExitSelection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""452ff092-d2ab-4e08-a679-b1b33de6815f"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -246,6 +265,7 @@ public class @MainControls : IInputActionCollection, IDisposable
         m_Main_Jump = m_Main.FindAction("Jump", throwIfNotFound: true);
         m_Main_Mouse = m_Main.FindAction("Mouse", throwIfNotFound: true);
         m_Main_ExitSelection = m_Main.FindAction("ExitSelection", throwIfNotFound: true);
+        m_Main_Pause = m_Main.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -301,6 +321,7 @@ public class @MainControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Main_Jump;
     private readonly InputAction m_Main_Mouse;
     private readonly InputAction m_Main_ExitSelection;
+    private readonly InputAction m_Main_Pause;
     public struct MainActions
     {
         private @MainControls m_Wrapper;
@@ -311,6 +332,7 @@ public class @MainControls : IInputActionCollection, IDisposable
         public InputAction @Jump => m_Wrapper.m_Main_Jump;
         public InputAction @Mouse => m_Wrapper.m_Main_Mouse;
         public InputAction @ExitSelection => m_Wrapper.m_Main_ExitSelection;
+        public InputAction @Pause => m_Wrapper.m_Main_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -338,6 +360,9 @@ public class @MainControls : IInputActionCollection, IDisposable
                 @ExitSelection.started -= m_Wrapper.m_MainActionsCallbackInterface.OnExitSelection;
                 @ExitSelection.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnExitSelection;
                 @ExitSelection.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnExitSelection;
+                @Pause.started -= m_Wrapper.m_MainActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_MainActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_MainActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_MainActionsCallbackInterface = instance;
             if (instance != null)
@@ -360,6 +385,9 @@ public class @MainControls : IInputActionCollection, IDisposable
                 @ExitSelection.started += instance.OnExitSelection;
                 @ExitSelection.performed += instance.OnExitSelection;
                 @ExitSelection.canceled += instance.OnExitSelection;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -372,5 +400,6 @@ public class @MainControls : IInputActionCollection, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
         void OnExitSelection(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
