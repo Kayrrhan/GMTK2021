@@ -936,9 +936,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn: {fileID: 7556233773359943814}
   monkeys:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8908050699298677869, guid: 25e2f3771b189624980b00984b5de4e4, type: 3}
+  - {fileID: 8908050699298677869, guid: 12cf8f210710dfe4fb1eaf56941cfc33, type: 3}
+  - {fileID: 8908050699298677869, guid: b297a3f20277faa4bba37d13d58f18a6, type: 3}
   buttons:
   - {fileID: 0}
   - {fileID: 0}
@@ -947,3 +947,4 @@ MonoBehaviour:
   _autoMonkeyPrefab: {fileID: 8908050699298677869, guid: 6f9d00da575b48f4e87b530cf8250c5d, type: 3}
   _autoMonkeyDirection: {x: 1, y: 0, z: 0}
   _delayBetweenAutoMonkeys: 1
+  _levelBehaviour: {fileID: 0}
