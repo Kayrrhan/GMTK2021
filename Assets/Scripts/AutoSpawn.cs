@@ -9,7 +9,6 @@ using Zenject;
 public class AutoSpawn : MonoBehaviour
 {
     public Transform spawn;
-    public GameObject monkeyPrefab;
     
     [System.NonSerialized]
     public GameObject lastInstance;
@@ -17,8 +16,8 @@ public class AutoSpawn : MonoBehaviour
     public List<GameObject> monkeys;
     public List<Button> buttons;
 
-    public GameObject lastInstance;
     public List<Monkey.TestType> types;
+
     [Inject]
     PlayerManager _playerManager = null;
 
@@ -30,8 +29,9 @@ public class AutoSpawn : MonoBehaviour
         spawnMonkey(0, true);
     }
     void spawnMonkey(int index, bool selectAuto){
-        lastInstance = Instantiate(monkeys[index],spawn.position,Quaternion.identity);
-        lastInstance.name = monkeyPrefab.name + $" {++_count} ";   
+        GameObject currentMonkey  =  monkeys[index];
+        lastInstance = Instantiate(currentMonkey,spawn.position,Quaternion.identity);
+        lastInstance.name = currentMonkey.name + $" {++_count} ";   
         Monkey monkey = lastInstance.GetComponent<Monkey>();
 
         monkey.typemonkey = types[index];
