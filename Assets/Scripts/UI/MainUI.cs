@@ -22,6 +22,9 @@ public class MainUI : MonoBehaviour
     [SerializeField]
     Text _gripButtonLeftText = null;
 
+    [SerializeField]
+    Button _autoRunButton = null;
+
     #endregion
 
     #region private members
@@ -40,11 +43,26 @@ public class MainUI : MonoBehaviour
     {
         _eventManager.onMonkeyGripped.AddListener(OnMonkeyGripped);
         _eventManager.onMonkeySelected.AddListener(OnMonkeySelection);
+        _eventManager.onAutoRunStarted.AddListener(OnAutoRunStarted);
+    }
+
+    void OnDestroy()
+    {
+        _eventManager.onMonkeyGripped.RemoveListener(OnMonkeyGripped);
+        _eventManager.onMonkeySelected.RemoveListener(OnMonkeySelection);
+        _eventManager.onAutoRunStarted.RemoveListener(OnAutoRunStarted);
     }
 
     #endregion
 
     #region private methods
+
+    void OnAutoRunStarted()
+    {
+        _autoRunButton.interactable = false;
+        _gripButtonLeft.interactable = false;
+        _gripButtonRight.interactable = false;
+    }
 
     void OnMonkeyGripped(Monkey monkey, bool gripped, GripSide side)
     {
@@ -93,6 +111,11 @@ public class MainUI : MonoBehaviour
     public void OnResetButtonClicked()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OnAutoRunClicked()
+    {
+        _eventManager.FireAutoRunTriggered();
     }
 
     #endregion

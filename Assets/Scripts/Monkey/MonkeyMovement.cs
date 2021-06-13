@@ -41,7 +41,7 @@ public class MonkeyMovement : MonoBehaviour
 
     const RigidbodyConstraints REGULAR_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
 
-    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezeAll;
 
     const RigidbodyConstraints GRIP_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ;
 

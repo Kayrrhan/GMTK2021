@@ -33,7 +33,7 @@ GameObject:
   - component: {fileID: 3476925049308761311}
   m_Layer: 7
   m_Name: AutoMonkey
-  m_TagString: Monkey
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
