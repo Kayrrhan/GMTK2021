@@ -284,7 +284,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &33530231
 MonoBehaviour:
@@ -505,6 +505,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161023874}
   m_CullTransparentMesh: 1
+--- !u!1 &263264589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8908050699298677869, guid: 25e2f3771b189624980b00984b5de4e4, type: 3}
+  m_PrefabInstance: {fileID: 1835117462}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &300539264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,7 +1024,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &1274053518
 PrefabInstance:
@@ -1122,13 +1127,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawn: {fileID: 1722073490}
   monkeys:
-  - {fileID: 1796303359}
+  - {fileID: 263264589}
   - {fileID: 1859479685}
   - {fileID: 1476252664}
   buttons:
   - {fileID: 161023876}
   - {fileID: 723852142}
   - {fileID: 300539266}
+  lastInstance: {fileID: 0}
 --- !u!54 &1603145480
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1330,11 +1336,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1796303359 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4472401858888491224, guid: 25e2f3771b189624980b00984b5de4e4, type: 3}
-  m_PrefabInstance: {fileID: 1835117462}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1835117462
 PrefabInstance:
   m_ObjectHideFlags: 0

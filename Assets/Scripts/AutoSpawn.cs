@@ -3,21 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Zenject;
+
 
 public class AutoSpawn : MonoBehaviour
 {
     public Transform spawn;
     public List<GameObject> monkeys;
-    GameObject _lastInstance;
     public List<Button> buttons;
-    void Start(){   
-        _lastInstance = Instantiate(monkeys[0],spawn.position,Quaternion.identity);       
+    public GameObject lastInstance;
+
+    [Inject]
+    PlayerManager _playerManager = null;
+
+    void Start()
+    {
+        lastInstance = Instantiate(monkeys[0],spawn.position,Quaternion.identity);       
         CreateButtons(buttons,monkeys);
+        _playerManager.selectedMonkey = lastInstance.GetComponent<Monkey>();
     }
 
     void OnTriggerExit(Collider other){
-        if (other.gameObject == _lastInstance)
-                _lastInstance = Instantiate(other.gameObject,spawn.position,Quaternion.identity);
+        if (other.gameObject == lastInstance)
+                lastInstance = Instantiate(other.gameObject,spawn.position,Quaternion.identity);
                 
     }
 
@@ -28,9 +36,9 @@ public class AutoSpawn : MonoBehaviour
         }
     }
     void SwitchMonkey(GameObject monkey){
-         if (_lastInstance != null)
-             Destroy(_lastInstance);
-        _lastInstance = Instantiate(monkey,spawn.position,Quaternion.identity);
+         if (lastInstance != null)
+            Destroy(lastInstance);
+        lastInstance = Instantiate(monkey,spawn.position,Quaternion.identity);
     }
 
 }
