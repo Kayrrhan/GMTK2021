@@ -29,7 +29,7 @@ public class AutoSpawn : MonoBehaviour
         special = !special;
         lastInstance = Instantiate(monkeyPrefab,spawn.position,Quaternion.identity);
         if (special){
-            lastInstance.transform.GetChild(0).GetComponent<MeshRenderer>().materials[0].color =  Color.red;
+            lastInstance.GetComponent<Monkey>().typemonkey = Monkey.TestType.COPTERE;
         }
     }
 }

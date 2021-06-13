@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {fileID: 299267109}
-  monkeyPrefab: {fileID: 4916956807212003516, guid: 12cf8f210710dfe4fb1eaf56941cfc33, type: 3}
+  monkeyPrefab: {fileID: 8908050699298677869, guid: 25e2f3771b189624980b00984b5de4e4, type: 3}
   lastInstance: {fileID: 0}
 --- !u!54 &1242043630
 Rigidbody:

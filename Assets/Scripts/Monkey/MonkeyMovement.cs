@@ -37,6 +37,8 @@ public class MonkeyMovement : MonoBehaviour
 
     const RigidbodyConstraints REGULAR_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
 
+    const RigidbodyConstraints FLY_CONSTRAINTS = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+
     const RigidbodyConstraints GRIP_CONSTRAINTS = RigidbodyConstraints.FreezePositionZ;
 
     #endregion
@@ -81,7 +83,7 @@ public class MonkeyMovement : MonoBehaviour
         {
             return;
         }
-
+ 
         Transform tr = monkey.transform;
         Rigidbody rb = monkey.rigidbody;
         bool isGrounded = IsGrounded();
@@ -133,6 +135,10 @@ public class MonkeyMovement : MonoBehaviour
         if (newMonkey != null)
         {
             EnableConstraints(newMonkey, newMonkey.gripJoint == null);
+        }
+        if (oldMonkey != null && oldMonkey != newMonkey && oldMonkey.typemonkey == Monkey.TestType.COPTERE){
+            Rigidbody rb = oldMonkey.rigidbody;
+            rb.constraints = FLY_CONSTRAINTS;
         }
     }
 

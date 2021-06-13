@@ -62,7 +62,6 @@ public class MonkeyClick : MonoBehaviour
     void OnSelectNewSpawned(CallbackCtx ctx){
         Monkey monkey = _autospawn.lastInstance.GetComponent<Monkey>();
         _playerManager.selectedMonkey = monkey;
-        _eventManager.FireMonkeySelection(monkey);
     }
 
     void OnMouseClickRight(CallbackCtx ctx)
