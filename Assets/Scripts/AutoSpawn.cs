@@ -38,9 +38,24 @@ public class AutoSpawn : MonoBehaviour
 
     bool _autoRun = false;
 
+    #region public properties
+
+    public static AutoSpawn instance { get; private set; } = null; // je crée un singleton parce qu'apparemment
+
+    #endregion
+
     void Awake()
     {
+        
+        if (instance == null)
+        {
+            instance = this;
         _eventManager.onAutoRunTriggered.AddListener(AutoRun);
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
     }
 
     void OnDestroy()

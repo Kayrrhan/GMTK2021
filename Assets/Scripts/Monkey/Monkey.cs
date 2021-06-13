@@ -205,6 +205,9 @@ public class Monkey : MonoBehaviour
         {
             MonkeyMovement.DetachMonkey(leftMonkey, this, GripSide.Right);
         }
+        if (PlayerManager.instance.selectedMonkey == this){
+            PlayerManager.instance.selectedMonkey = AutoSpawn.instance.lastInstance.GetComponent<Monkey>();
+        }
     }
 
     void Update()
