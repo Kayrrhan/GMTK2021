@@ -5,9 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField] 
+    GameObject pausePanel;
+
     public void OnResumeClicked()
     {
         Debug.Log("Resume");
+        pausePanel.SetActive(false);
     }
 
     public void OnSaveClicked()
@@ -22,6 +26,6 @@ public class PauseMenu : MonoBehaviour
 
     public void OnReturnClicked()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(0);
     }
 }
