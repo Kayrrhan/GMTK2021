@@ -1673,7 +1673,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Title
+  m_Text: Monkey Bridge
 --- !u!222 &1859087544
 CanvasRenderer:
   m_ObjectHideFlags: 0
