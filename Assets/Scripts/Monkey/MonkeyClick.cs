@@ -21,7 +21,7 @@ public class MonkeyClick : MonoBehaviour
     MainControls _controls = null;
 
     AutoSpawn _autospawn;
-    
+
     #endregion
 
     void Awake()
@@ -73,6 +73,7 @@ public class MonkeyClick : MonoBehaviour
     
     void OnSelectNewSpawned(CallbackCtx ctx){
         Monkey monkey = _autospawn.lastInstance.GetComponent<Monkey>();
+        // _previousMonkey = _playerManager.selectedMonkey;
         _playerManager.selectedMonkey = monkey;
     }
 
