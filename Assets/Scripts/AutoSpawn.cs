@@ -16,6 +16,8 @@ public class AutoSpawn : MonoBehaviour
     [Inject]
     PlayerManager _playerManager = null;
 
+    int _count = 0;
+
     void Start()
     {
         lastInstance = Instantiate(monkeyPrefab,spawn.position,Quaternion.identity);
@@ -23,7 +25,10 @@ public class AutoSpawn : MonoBehaviour
     }
     void OnTriggerExit(Collider other){
         if (other.gameObject == lastInstance)
+        {
             lastInstance = Instantiate(monkeyPrefab,spawn.position,Quaternion.identity);
+            lastInstance.name = monkeyPrefab.name + $" {++_count} ";
+        }
     }
     
     

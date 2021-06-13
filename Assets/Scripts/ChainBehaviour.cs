@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class ChainBehaviour : MonoBehaviour
 {
-    #region public properties
-    #endregion
-
-    #region private methods
 
     private bool firstCollision = true;
 
@@ -35,6 +31,4 @@ public class ChainBehaviour : MonoBehaviour
             firstCollision = false;
         }
     }
-
-    #endregion
 }

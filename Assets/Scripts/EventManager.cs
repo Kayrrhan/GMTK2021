@@ -7,9 +7,9 @@ public class EventManager : MonoBehaviour
 {
     #region inspector
 
-    public UnityEvent onMonkeyGrip = null;
+    public UnityEvent<GripSide> onMonkeyGrip = null;
 
-    public UnityEvent<Monkey, bool> onMonkeyGripped = null;
+    public UnityEvent<Monkey, bool, GripSide> onMonkeyGripped = null;
 
     public UnityEvent<Monkey, Monkey> onMonkeySelected = null;
 
@@ -17,14 +17,14 @@ public class EventManager : MonoBehaviour
 
     #region public methods
 
-    public void FireMonkeyGrip()
+    public void FireMonkeyGrip(GripSide side)
     {
-        onMonkeyGrip?.Invoke();
+        onMonkeyGrip?.Invoke(side);
     }
 
-    public void FireMonkeyGripped(Monkey monkey, bool gripped)
+    public void FireMonkeyGripped(Monkey monkey, bool gripped, GripSide side)
     {
-        onMonkeyGripped?.Invoke(monkey, gripped);
+        onMonkeyGripped?.Invoke(monkey, gripped, side);
     }
 
     public void FireMonkeySelected(Monkey oldMonkey, Monkey newMonkey)
