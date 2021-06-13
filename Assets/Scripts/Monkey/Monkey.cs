@@ -108,6 +108,17 @@ public class Monkey : MonoBehaviour
     {
         get
         {
+            if (rightMonkey != null && rightMonkey.jointOnMonkey !=null &&
+                 rightMonkey.jointOnMonkey.connectedBody == rigidbody)
+            {
+                return rightMonkey.jointOnMonkey;
+            }
+            if (leftMonkey != null && leftMonkey.jointOnMonkey != null && 
+                leftMonkey.jointOnMonkey.connectedBody == rigidbody)
+            {
+                return leftMonkey.jointOnMonkey;
+            }
+
             var joint = rightGripJoint;
             if (joint != null && joint.connectedBody == rigidbody)
             {
@@ -282,6 +293,8 @@ public class Monkey : MonoBehaviour
         _otherGripCollider.transform.localPosition = new Vector3(Mathf.Abs(localPos.x) * -_side, localPos.y, localPos.z);
         localPos = _anchor.transform.localPosition;
         _anchor.transform.localPosition = new Vector3(Mathf.Abs(localPos.x) * _side, localPos.y, localPos.z);
+        localPos = _otherAnchor.transform.localPosition;
+        _otherAnchor.transform.localPosition = new Vector3(Mathf.Abs(localPos.x) * -_side, localPos.y, localPos.z);
     }
 
     public void SetAnimationState(AnimationState state)
