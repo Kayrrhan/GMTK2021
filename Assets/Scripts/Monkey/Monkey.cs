@@ -13,7 +13,9 @@ public class Monkey : MonoBehaviour
     public enum TestType 
     {
         NORMAL,
-        COPTERE
+        COPTERE,
+
+        PATH
     }
 
     #region inspector

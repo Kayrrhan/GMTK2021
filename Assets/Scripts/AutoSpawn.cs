@@ -12,33 +12,43 @@ public class AutoSpawn : MonoBehaviour
     public List<GameObject> monkeys;
     public List<Button> buttons;
     public GameObject lastInstance;
+    public List<Monkey.TestType> types;
     
     [Inject]
     PlayerManager _playerManager = null;
 
     void Start()
-    {
-        lastInstance = Instantiate(monkeys[0],spawn.position,Quaternion.identity);       
+    {       
         CreateButtons(buttons,monkeys);
-        _playerManager.selectedMonkey = lastInstance.GetComponent<Monkey>();
+        spawnMonkey(0, true);
+    }
+    void spawnMonkey(int index, bool selectAuto){
+        lastInstance = Instantiate(monkeys[index],spawn.position,Quaternion.identity);
+        
+        Monkey monkey = lastInstance.GetComponent<Monkey>();
+
+        monkey.typemonkey = types[index];
+        if (selectAuto){   
+            _playerManager.selectedMonkey = monkey;
+        }   
     }
 
     void OnTriggerExit(Collider other){
         if (other.gameObject == lastInstance)
-                lastInstance = Instantiate(other.gameObject,spawn.position,Quaternion.identity);
+                spawnMonkey(0, false);
                 
     }
 
     public void CreateButtons(List<Button> buttons,List<GameObject> monkeys){
         for(var i = 0;i<Math.Min(monkeys.Count,buttons.Count);++i){
             int copy = i; //Important
-            buttons[copy].onClick.AddListener(()=>SwitchMonkey(monkeys[copy]));
+            buttons[copy].onClick.AddListener(()=>SwitchMonkey(copy));
         }
     }
-    void SwitchMonkey(GameObject monkey){
+    void SwitchMonkey(int index){
          if (lastInstance != null)
             Destroy(lastInstance);
-        lastInstance = Instantiate(monkey,spawn.position,Quaternion.identity);
+        spawnMonkey(index, true);
     }
 
 }
